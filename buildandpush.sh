@@ -156,14 +156,7 @@ case ${ACTION} in
     echo "   remote - builds and tags the local + remote container"
     echo "   singularity - builds the singularity image from the local container"
     echo "   all - as implied"
-    echo "   run - runs the container with 'docker run --rm \
-                       -it \
-                       -p ${EXPOSED_PORT}:80 \
-                       -e DEBUG=0 \
-                       -v $(pwd):/opt/devel \
-                       -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ \
-                       ${CONTAINER_STRING} bash
-'"
+    echo "   run - runs the container with 'docker run --rm \ -it -p ${EXPOSED_PORT}:80 -e DEBUG=0 -v $(pwd):/opt/devel -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ -v $(pwd)/conf/:/usr/local/apache2/conf/ ${CONTAINER_STRING} bash'"
     echo "   list - list the container to be built"
     ;;
   *)
