@@ -19,7 +19,7 @@ RUN apt-get update -y \
             wget \
             unzip \
  && apt-get autoclean -y \
- && apt-get clean all 
+ && apt-get clean all
 
 # make geneweb
 WORKDIR /tmp/
@@ -41,6 +41,7 @@ HEALTHCHECK --interval=5m \
             --timeout=3s \
             --start-period=30s \
   CMD curl -s --fail http://localhost:80 -o /dev/null
+
 # Mandatory Labels
 LABEL PROJECT=geneweb
 LABEL MAINTAINER="slash5toaster@gmail.com"
