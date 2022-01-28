@@ -15,8 +15,6 @@
 # # Gwd log file, it helps to solve problems.
 # LOGFILE=$GENEWEBDB/gw.log
 #
-#
-# #!/bin/sh
 BIN_DIR=/opt/geneweb
 BASE_DIR=/opt/geneweb/bases
 OPTIONS="-robot_xcl 19,60 -allowed_tags ./tags.txt -hd ./"

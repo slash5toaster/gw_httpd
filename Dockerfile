@@ -12,9 +12,6 @@ ENV GW_ROOT=/opt/geneweb \
     HTTP_PORT=80 \
     HTTPS_PORT=443
 
-COPY ./public-html/ /usr/local/apache2/htdocs/
-COPY ./conf/ /usr/local/apache2/conf/
-
 RUN apt-get update -y \
  && apt-get install -y \
             curl \
@@ -33,7 +30,13 @@ RUN unzip /tmp/geneweb-linux-${GW_PR}.zip \
     && mv -v /tmp/distribution/* ${GW_ROOT}/ \
     && rm -v /tmp/geneweb-linux-${GW_PR}*
 
+# add content
+COPY ./public-html/ /usr/local/apache2/htdocs/
+COPY ./conf/ /usr/local/apache2/conf/
+COPY ./cgi-bin/ /usr/local/apache2/cgi-bin/
+
 WORKDIR /usr/local/apache
+
 HEALTHCHECK --interval=5m \
             --timeout=3s \
             --start-period=30s \

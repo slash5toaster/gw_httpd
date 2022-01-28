@@ -137,6 +137,7 @@ case ${ACTION} in
                    -e DEBUG=0 \
                    -v $(pwd):/opt/devel \
                    -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ \
+                   -v $(pwd)/cgi-bin/:/usr/local/apache2/htdocs/ \
                    ${CONTAINER_STRING} bash
       else
         echo ${CONTAINER_STRING} "doesn't exist"
