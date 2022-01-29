@@ -140,6 +140,7 @@ case ${ACTION} in
                    -v $(pwd):/opt/devel \
                    -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ \
                    -v $(pwd)/cgi-bin/:/usr/local/apache2/cgi-bin/ \
+                   -v $(pwd)/bases/:/opt/geneweb/bases/ \
                    ${CONTAINER_STRING} bash
       else
         echo ${CONTAINER_STRING} "doesn't exist"
