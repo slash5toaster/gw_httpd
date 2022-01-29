@@ -48,10 +48,12 @@ CONTAINER_STRING="${CONTAINER_PROJECT}/${CONTAINER_NAME}:${CONTAINER_TAG}"
 
 delay_time ()
 {
-    local TITLE=${1:-"Building"}
+    local TITLE=${1:-"Will continue"}
+    local NUMSEC=${2:-10}
 
-    echo "${TITLE} ${CONTAINER_STRING} in 5"
-    for (( i = 1; i <= 5; i++ )); do
+    echo " - - - - - - - - - - - "
+    echo "${TITLE} in ${NUMSEC}"
+    for (( i = ${NUMSEC}; ${i} > 0  ; i-- )); do
       echo -en "$i "
       sleep 1
     done
@@ -60,7 +62,7 @@ delay_time ()
 build_local ()
 {
   mkdir -vp source/logs/
-  delay_time "Build locally -"
+  delay_time "Build locally -" 5
   mkdir -vp  source/logs/
   docker build . \
          -t ${CONTAINER_STRING} \
@@ -88,7 +90,7 @@ build_singularity ()
 {
   local OUTPUT_FOLDER=$(pwd)
 
-  delay_time "Building singularity container in ${OUTPUT_FOLDER}"
+  delay_time "Building singularity container in ${OUTPUT_FOLDER}" 5
 
   docker run -v /var/run/docker.sock:/var/run/docker.sock \
              -v ${OUTPUT_FOLDER}:/output \
@@ -137,7 +139,7 @@ case ${ACTION} in
                    -e DEBUG=0 \
                    -v $(pwd):/opt/devel \
                    -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ \
-                   -v $(pwd)/cgi-bin/:/usr/local/apache2/htdocs/ \
+                   -v $(pwd)/cgi-bin/:/usr/local/apache2/cgi-bin/ \
                    ${CONTAINER_STRING} bash
       else
         echo ${CONTAINER_STRING} "doesn't exist"
@@ -157,7 +159,7 @@ case ${ACTION} in
     echo "   remote - builds and tags the local + remote container"
     echo "   singularity - builds the singularity image from the local container"
     echo "   all - as implied"
-    echo "   run - runs the container with 'docker run --rm \ -it -p ${EXPOSED_PORT}:80 -e DEBUG=0 -v $(pwd):/opt/devel -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ -v $(pwd)/conf/:/usr/local/apache2/conf/ ${CONTAINER_STRING} bash'"
+    echo "   run - runs the container with 'docker run --rm -it -p ${EXPOSED_PORT}:80 -e DEBUG=0 -v $(pwd):/opt/devel -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ -v $(pwd)/conf/:/usr/local/apache2/conf/ ${CONTAINER_STRING} bash'"
     echo "   list - list the container to be built"
     ;;
   *)
