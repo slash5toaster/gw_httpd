@@ -1,0 +1,3 @@
+[submodule "jonesc_bases"]
+	path = bases
+	url = git@bitbucket.org:ClydeC/jones_geneweb.git
