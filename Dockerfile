@@ -35,6 +35,8 @@ COPY ./public-html/ /usr/local/apache2/htdocs/
 COPY ./conf/ /usr/local/apache2/conf/
 COPY ./cgi-bin/ /usr/local/apache2/cgi-bin/
 
+ENV PATH=$PATH:$GW_ROOT/:$GW_ROOT/gw/
+
 WORKDIR /usr/local/apache
 
 HEALTHCHECK --interval=5m \
