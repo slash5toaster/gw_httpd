@@ -66,7 +66,8 @@ build_local ()
   mkdir -vp  source/logs/
   docker build . \
          -t ${CONTAINER_STRING} \
-         --label BUILDDATE=$(date +%F-%H%M) \
+         --progress plain \
+         --label BUILDDATE=$(date +%F-%H%M) 2>&1 \
     | tee source/logs/build-${CONTAINER_PROJECT}-${CONTAINER_NAME}_${CONTAINER_TAG}-$(date +%F-%H%M).log && \
   docker inspect ${CONTAINER_STRING} > source/logs/inspect-${CONTAINER_PROJECT}-${CONTAINER_NAME}_${CONTAINER_TAG}-$(date +%F-%H%M).log
 }
@@ -136,6 +137,8 @@ case ${ACTION} in
         docker run --rm \
                    -it \
                    -p ${EXPOSED_PORT}:80 \
+                   -p 2316:2316 \
+                   -p 2317:2317 \
                    -e DEBUG=0 \
                    -v $(pwd):/opt/devel \
                    -v $(pwd)/public-html/:/usr/local/apache2/htdocs/ \

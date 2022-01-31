@@ -16,6 +16,7 @@ RUN apt-get update -y \
  && apt-get install -y \
             curl \
             git \
+            lynx \
             wget \
             unzip \
  && apt-get autoclean -y \
@@ -31,13 +32,13 @@ RUN unzip /tmp/geneweb-linux-${GW_PR}.zip \
     && rm -v /tmp/geneweb-linux-${GW_PR}*
 
 # add content
-COPY ./public-html/ /usr/local/apache2/htdocs/
-COPY ./conf/ /usr/local/apache2/conf/
-COPY ./cgi-bin/ /usr/local/apache2/cgi-bin/
+COPY public-html/ /usr/local/apache2/htdocs/
+COPY conf/ /usr/local/apache2/conf/
+COPY cgi-bin/ /usr/local/apache2/cgi-bin/
 
 ENV PATH=$PATH:$GW_ROOT/:$GW_ROOT/gw/
 
-WORKDIR /usr/local/apache
+WORKDIR /usr/local/apache2
 
 HEALTHCHECK --interval=5m \
             --timeout=3s \
