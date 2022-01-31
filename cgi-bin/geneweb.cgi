@@ -1,21 +1,37 @@
 #!/usr/bin/env bash
 
-# # The CGI working directory.
-# PWD=$(pwd)
-# # The language for the user interface.
-# LNG="en"
-# # The programs folder.
-# GENEWEBSHARE=$PWD/gw
-# # The documentation folder (obsolete).
-# GENEWEBDOC=$PWD/gw/doc
-# # The databases folder.
-# GENEWEBDB=$PWD/../bases
-# # The program gwd itself.
-# DAEMON=$GENEWEBSHARE/gwd
-# # Gwd log file, it helps to solve problems.
-# LOGFILE=$GENEWEBDB/gw.log
-#
+# The CGI working directory.
 BIN_DIR=/opt/geneweb
 BASE_DIR=/opt/geneweb/bases
+
+# The language for the user interface.
+LNG=${LNG:="en"}
+LOGFILE=${LOGFILE:=$BIN_DIR/gw.log}
+
+
+fail_message ()
+{
+   echo 'Content-type: text/html'
+   echo '<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml">'
+   echo '<body>'
+   echo '<H3>Geneweb CGI failure</H3>'
+   echo "<ul><li>$BIN_DIR</li>
+         <li>$BASE_DIR</li>
+         <li>$LNG</li>
+         <li>$LOGFILE</li>
+         </ul>"
+   echo $(date +%F)'</p>'
+   echo '</body></html>'
+}
+# cgi options
 OPTIONS="-robot_xcl 19,60 -allowed_tags ./tags.txt -hd ./"
-$BIN_DIR/gwd -cgi  $OPTIONS   -bd $BASE_DIR   2>./gwd.log
+
+# call gwd
+test -e $BIN_DIR || fail_message 
+$BIN_DIR/gwd \
+            -cgi $OPTIONS \
+            -lang $LNG \
+            -bd $BASE_DIR   2>$LOGFILE
+
+# End of file, if this is missing the file is truncated
+###################################################################################################
