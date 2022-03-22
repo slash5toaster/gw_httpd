@@ -3,7 +3,7 @@
 [[ $DEBUG ]] && set -x
 set -o pipefail
 
-D2S_VERSION=v3.9.2
+D2S_VERSION=v3.9.4
 EXPOSED_PORT=28080
 
 declare -a LABEL_NAMES
