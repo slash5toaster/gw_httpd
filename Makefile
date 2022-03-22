@@ -66,6 +66,7 @@ shell: ## shell in server image.
 					-e DEBUG=0 \
 					-v $(shell pwd):/opt/devel \
 					-v $(shell pwd)/public-html/:/usr/local/apache2/htdocs/ \
+					-v $(shell pwd)/source/logs/:/usr/local/apache2/logs/ \
 					-v $(shell pwd)/cgi-bin/:/usr/local/apache2/cgi-bin/ \
 					-v $(shell pwd)/bases/:/opt/geneweb/bases/ \
 					$(CONTAINER_STRING) bash
