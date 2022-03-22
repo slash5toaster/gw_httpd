@@ -6,6 +6,7 @@ D2S_VERSION ?= v3.9.4
 EXPOSED_PORT ?= 28080
 GENEWEB_PORT ?= 2316
 GWSETUP_PORT ?= 2317
+GW_PR ?= 88536ed4
 
 # Date for log files
 LOGDATE := $(shell date +%F-%H%M)
@@ -37,6 +38,7 @@ local: ## Build the image locally.
 	docker build . \
 					-t $(CONTAINER_STRING) \
 					--progress plain \
+					--build-arg GW_PR=$(GW_PR) \
 					--label BUILDDATE=$(LOGDATE) 2>&1 \
 					| tee source/logs/build-$(CONTAINER_PROJECT)-$(CONTAINER_NAME)_$(CONTAINER_TAG)-$(LOGDATE).log
 	docker inspect $(CONTAINER_STRING) > source/logs/inspect-$(CONTAINER_PROJECT)-$(CONTAINER_NAME)_$(CONTAINER_TAG)-$(LOGDATE).log

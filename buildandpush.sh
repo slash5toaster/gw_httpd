@@ -5,6 +5,7 @@ set -o pipefail
 
 D2S_VERSION=v3.9.4
 EXPOSED_PORT=28080
+GW_PR=88536ed4
 
 declare -a LABEL_NAMES
 declare -a REMOTE_LNK
@@ -67,6 +68,7 @@ build_local ()
   docker build . \
          -t ${CONTAINER_STRING} \
          --progress plain \
+         --build-arg GW_PR=${GW_PR} \
          --label BUILDDATE=$(date +%F-%H%M) 2>&1 \
     | tee source/logs/build-${CONTAINER_PROJECT}-${CONTAINER_NAME}_${CONTAINER_TAG}-$(date +%F-%H%M).log && \
   docker inspect ${CONTAINER_STRING} > source/logs/inspect-${CONTAINER_PROJECT}-${CONTAINER_NAME}_${CONTAINER_TAG}-$(date +%F-%H%M).log
