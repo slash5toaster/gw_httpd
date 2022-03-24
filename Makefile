@@ -55,6 +55,8 @@ shell: ## shell in server image.
 	docker run \
 					--rm \
 					-it \
+					--name=$(CONTAINER_NAME)-$(CONTAINER_TAG) \
+					--hostname=$(CONTAINER_NAME)-$(CONTAINER_TAG) \
 					-p $(EXPOSED_PORT):80 \
 					-p $(GENEWEB_PORT):$(GENEWEB_PORT) \
 					-p $(GWSETUP_PORT):$(GWSETUP_PORT) \
