@@ -3,7 +3,7 @@ SHELL := /usr/local/bin/bash
 # Docker repository for tagging and publishing
 DOCKER_REPO ?= localhost
 D2S_VERSION ?= v3.9.4
-EXPOSED_PORT ?= 28080
+EXPOSED_PORT ?= 80
 GENEWEB_PORT ?= 2316
 GWSETUP_PORT ?= 2317
 GW_PR ?= ab6b706e
@@ -29,11 +29,6 @@ help: ## This help.
 envs: ## show the environments
 	$(shell echo -e "${CONTAINER_STRING}\n\t${CONTAINER_PROJECT}\n\t${CONTAINER_NAME}\n\t${CONTAINER_TAG}")
 
-# all: ## Building two images Server (JupyterHub) and Client (JupyterLab).
-# 	$(MAKE) local
-# 	$(MAKE) remote
-# 	$(MAKE) singularity
-
 local: ## Build the image locally.
 	docker build . \
 					-t $(CONTAINER_STRING) \
@@ -43,7 +38,7 @@ local: ## Build the image locally.
 					| tee source/logs/build-$(CONTAINER_PROJECT)-$(CONTAINER_NAME)_$(CONTAINER_TAG)-$(LOGDATE).log
 	docker inspect $(CONTAINER_STRING) > source/logs/inspect-$(CONTAINER_PROJECT)-$(CONTAINER_NAME)_$(CONTAINER_TAG)-$(LOGDATE).log
 
-remote: external-sync ## Push the image to remote.
+remote: ## Push the image to remote.
 	$(MAKE) local
 
 singularity: ## Create a singularity version.
@@ -58,15 +53,17 @@ singularity: ## Create a singularity version.
 
 shell: ## shell in server image.
 	docker run \
-	        --rm \
+					--rm \
 					-it \
 					-p $(EXPOSED_PORT):80 \
 					-p $(GENEWEB_PORT):$(GENEWEB_PORT) \
 					-p $(GWSETUP_PORT):$(GWSETUP_PORT) \
 					-e DEBUG=0 \
+					--name gw_httpd \
 					-v $(shell pwd):/opt/devel \
 					-v $(shell pwd)/public-html/:/usr/local/apache2/htdocs/ \
-					-v $(shell pwd)/source/logs/:/usr/local/apache2/logs/ \
+					-v $(shell pwd)/conf/:/usr/local/apache2/conf/ \
+					-v $(shell pwd)/source/logs/httpd/:/usr/local/apache2/logs/ \
 					-v $(shell pwd)/cgi-bin/:/usr/local/apache2/cgi-bin/ \
 					-v $(shell pwd)/bases/:/opt/geneweb/bases/ \
 					$(CONTAINER_STRING) bash
