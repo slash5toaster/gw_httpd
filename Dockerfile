@@ -47,6 +47,8 @@ HEALTHCHECK --interval=5m \
             --start-period=30s \
   CMD curl -s --fail http://localhost:80 -o /dev/null
 
+CMD ["apachectl -t && apachectl start"]
+
 # Mandatory Labels
 LABEL PROJECT=geneweb
 LABEL MAINTAINER="slash5toaster@gmail.com"

@@ -61,7 +61,9 @@ shell: ## shell in server image.
 					-p $(GENEWEB_PORT):$(GENEWEB_PORT) \
 					-p $(GWSETUP_PORT):$(GWSETUP_PORT) \
 					-e DEBUG=0 \
+					-e TZ=PST8PDT \
 					--name gw_httpd \
+					--hostname $(CONTAINER_TAG) \
 					-v $(shell pwd):/opt/devel \
 					-v $(shell pwd)/public-html/:/usr/local/apache2/htdocs/ \
 					-v $(shell pwd)/conf/:/usr/local/apache2/conf/ \
