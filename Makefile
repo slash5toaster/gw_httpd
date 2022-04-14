@@ -6,7 +6,7 @@ D2S_VERSION ?= v3.9.4
 EXPOSED_PORT ?= 28080
 GENEWEB_PORT ?= 2316
 GWSETUP_PORT ?= 2317
-GW_PR ?= 88536ed4
+GW_PR ?= ab6b706e
 
 # Date for log files
 LOGDATE := $(shell date +%F-%H%M)

@@ -1,7 +1,7 @@
 FROM httpd:2.4
 
 ARG GW_VER=7.0.0 \
-    GW_PR=88536ed4 \
+    GW_PR=ab6b706e \
     GW_USER=geneweb \
     GW_GROUP=geneweb \
     GW_UID=115 \
@@ -24,12 +24,14 @@ RUN apt-get update -y \
 
 # make geneweb
 WORKDIR /tmp/
+# https://github.com/geneweb/geneweb/releases/download/Geneweb-ab6b706e/geneweb-linux-ab6b706e.zip
 RUN mkdir -vp ${GW_ROOT} \
- && wget https://github.com/geneweb/geneweb/releases/download/v${GW_VER}/geneweb-linux-${GW_PR}.zip \
-      -O /tmp/geneweb-linux-${GW_PR}.zip
-RUN unzip /tmp/geneweb-linux-${GW_PR}.zip \
-    && mv -v /tmp/distribution/* ${GW_ROOT}/ \
-    && rm -v /tmp/geneweb-linux-${GW_PR}*
+ && wget \
+      https://github.com/geneweb/geneweb/releases/download/Geneweb-${GW_PR}/geneweb-linux-${GW_PR}.zip \
+      -O /tmp/geneweb-linux-${GW_PR}.zip \
+ && unzip /tmp/geneweb-linux-${GW_PR}.zip \
+ && mv -v /tmp/distribution/* ${GW_ROOT}/ \
+ && rm -v /tmp/geneweb-linux-${GW_PR}*
 
 # add content
 COPY public-html/ /usr/local/apache2/htdocs/
