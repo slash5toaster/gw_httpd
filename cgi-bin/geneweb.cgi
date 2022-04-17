@@ -5,7 +5,7 @@ BIN_DIR=/opt/geneweb
 BASE_DIR=/opt/geneweb/bases
 
 # The language for the user interface.
-LNG=${LNG:="en"}
+LANG=${LANG:="en"}
 LOGFILE=${LOGFILE:=$HTTPD_PREFIX/logs/gw.log}
 
 
@@ -29,10 +29,11 @@ OPTIONS="-robot_xcl 19,60 -allowed_tags ./tags.txt -hd ./"
 # call gwd
 test -e $BIN_DIR || fail_message
 touch ${LOGFILE} || fail_message
+
 $BIN_DIR/gwd \
             -cgi $OPTIONS \
             -lang $LANG \
-            -bd $BASE_DIR   2>$LOGFILE
+            -bd $BASE_DIR/   2>>$LOGFILE
 
 # End of file, if this is missing the file is truncated
 ###################################################################################################
