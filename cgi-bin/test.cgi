@@ -13,6 +13,7 @@ saveIFS=$IFS
 IFS='=&'
 PARAMS=($QUERY_STRING)
 IFS=$saveIFS
+
 if [[ ${#PARAMS[@]} -gt 0 ]]; then
   echo '<h3>Input parameters</h3>'
   echo '<ol start=0 >'
@@ -29,6 +30,7 @@ fi
 
 echo '<h3>Environment variables</h3>'
 echo '<ul>'
+
 # print all environment variables
 saveIFS=$IFS
 IFS=$'\n\t'
@@ -36,6 +38,7 @@ for i in $(env | sort); do
   echo '<li>'$i'</li>'
 done
 IFS=$saveIFS
+
 echo '</ul>'
 echo '</body>'
 echo '</html>'
