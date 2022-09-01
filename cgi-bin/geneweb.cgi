@@ -4,6 +4,9 @@
 BIN_DIR=/opt/geneweb
 BASE_DIR=/opt/geneweb/bases
 
+# the geneweb parameters passed
+declare -A GW_PARAMS
+
 # parse the query string!!
 saveIFS=$IFS
 IFS='=&'
@@ -12,16 +15,13 @@ IFS=$saveIFS
 if [[ ${#PARAMS[@]} -gt 0 ]]; then
   for q in "${!PARAMS[@]}"; do
     if [[ $(($q % 2)) -eq 0  ]]; then
-      # dereference item
-      ${!PARAMS[$q]}=${PARAMS[$q+1]}
+      GW_PARAMS[${PARAMS[$q]}]=${PARAMS[$q+1]}
     fi
   done
 fi
-
 # The language for the user interface.
 lang=${lang:="en"}
 LOGFILE=${LOGFILE:=$HTTPD_PREFIX/logs/gw.log}
-
 
 fail_message ()
 {
@@ -49,7 +49,7 @@ touch -m $LOGFILE || fail_message
 $BIN_DIR/gwd \
             -cgi $OPTIONS \
             -lang $lang \
-            -bd $BASE_DIR/$b   2>>$LOGFILE \
+            -bd $BASE_DIR/ 2>>$LOGFILE \
 || fail_message
 
 # End of file, if this is missing the file is truncated
